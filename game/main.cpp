@@ -5,47 +5,28 @@ int main()
     //------------------INITIALIZE-------------------------------
     sf::ContextSettings settings;
     settings.antialiasingLevel = 8;
-    sf::RenderWindow window(sf::VideoMode(800, 600), "RPG Game"
-                           ,sf::Style::Default, settings);
-            //circle
-    sf::CircleShape shape(50.0f);
-    shape.setFillColor(sf::Color::Red);
-    shape.setPosition(sf::Vector2f(100,100));
-    shape.setOutlineThickness(10);
-    shape.setOutlineColor(sf::Color::Green);
-            //rectangle
-    sf::RectangleShape rect(sf::Vector2f(120.0f,40.0f));
-    rect.setFillColor(sf::Color::Green);
-    rect.setPosition(sf::Vector2f(200.f,200.f));
-    rect.setOutlineThickness(5);
-    rect.setOutlineColor(sf::Color::Yellow);
-    rect.setRotation(32.6f);
-    rect.setOrigin(rect.getSize() / 2.f);
-            //polygon
-    float s;
-    int p;
-    std::cout << "Enter the size and no of points you want" << std::endl;
-    std::cout << "3 points is triangle, 4 points is square and so on..." << std::endl;
-    std::cout << "Enter Size: ";
-    std::cin  >> s;
-    std::cout << std::endl;
-    std::cout << "Enter No of Points: ";
-    std::cin  >> p;
-
-    sf::CircleShape poly(s, p);
-    poly.setFillColor(sf::Color::Magenta);
-    poly.setOutlineThickness(10.f);
-    poly.setOutlineColor(sf::Color::Yellow);
-             //Line
-    sf::RectangleShape line(sf::Vector2f(150.f, 1.f));
-    line.setFillColor(sf::Color::Red);
-    line.setPosition(sf::Vector2f(240, 300));
-
-
+    sf::RenderWindow window(sf::VideoMode(800, 600), "RPG Game" ,sf::Style::Default, settings);
     //------------------INITIALIZE-------------------------------
     
-    
-    
+    //------------------LOAD-------------------------------
+    sf::Texture playerTexture;
+    sf::Sprite playerSprite;
+    if (playerTexture.loadFromFile("Assets/Player/Textures/spritesheet.png"))
+    {
+        std::cout << "Player Images loaded!!" << std::endl;
+        playerSprite.setTexture(playerTexture);
+        //x, y, width, height
+        int Xindex = 0;
+        int Yindex = 0;
+        playerSprite.setTextureRect(sf::IntRect(Xindex * 64, Yindex * 64, 64, 64));
+        playerSprite.scale(sf::Vector2f(3, 3));
+    }
+    else
+    {
+        std::cout << "Player Image failed to load!!" << std::endl;
+    }
+    //------------------LOAD-------------------------------
+  
     while (window.isOpen()) //game loop
     {
         //------------------UPDATING------------------------
@@ -55,15 +36,31 @@ int main()
             if (event.type == sf::Event::Closed)
                 window.close();
         }
+
+
+        sf::Vector2f position = playerSprite.getPosition();
+        //move left
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+            playerSprite.setPosition(position + sf::Vector2f(-1, 0));
+
+        //move right
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+            playerSprite.setPosition(position + sf::Vector2f(1, 0));
+        
+        //move up
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+            playerSprite.setPosition(position + sf::Vector2f(0, -1));
+
+        //move down
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+            playerSprite.setPosition(position + sf::Vector2f(0, 1));
+
         //------------------UPDATING------------------------
 
 
         //--------------------Draw--------------------------
         window.clear(sf::Color::Black);
-        //window.draw(shape);
-        //window.draw(rect);
-        window.draw(poly);
-        window.draw(line);
+        window.draw(playerSprite); //cannot ever draw texture
         window.display();
         //--------------------Draw--------------------------
     }
