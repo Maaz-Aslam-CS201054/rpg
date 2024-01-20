@@ -28,7 +28,21 @@
 //
 
 
+/*
+ //Top 10 fav videogames
+    std::vector<std::string> topVideoGames; //holds 0 elements
+    topVideoGames.reserve(1000);
+    
 
+    for (int i = 0; i < 10; i++)
+    {
+        topVideoGames.push_back("final fantasy: ");
+        std::cout << topVideoGames[i] << i << std::endl;
+    }
+    std::cout << topVideoGames.size() << std::endl;
+    std::cout << topVideoGames.capacity() << std::endl;
+
+*/
 
 
 //#include <iostream>
